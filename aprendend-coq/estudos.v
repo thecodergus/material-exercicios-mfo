@@ -86,30 +86,25 @@ Proof.
   - reflexivity. 
 Qed.
 
-
-
-Lemma div_2_n : forall n,
-  div2 (2 * n) = (div2 2 ) * n.
+Lemma div_2_n n : 
+  div2 (2*n) = n.
 Proof.
-  intro n. induction n as [|n' IHn'].
-  - reflexivity.
-  - simpl. rewrite plus_n_0. 
-    rewrite plus_n_Sm. 
-    rewrite mult_2_n_plus. 
-    rewrite IHn'.
-    rewrite div2_2.
-    rewrite <- mult_n_1_1_n.
-    rewrite mult_n_1.
-    reflexivity. 
+  induction n as [|n' IHn']; trivial.
+  simpl mul.
+  rewrite plus_n_Sm; simpl. 
+  rewrite plus_n_0. rewrite mult_2_n_plus.
+  rewrite IHn'.
+  rewrite <- plus_n_1.
+  reflexivity.
 Qed.
 
 
 Theorem mul2_div2 : forall n : nat,
   n = div2 (2 * n).
 Proof.
-    intro n. in n as [|n' IHn'].
-    - simpl. reflexivity.
-    - simpl.
+    intro n. induction n as [|n' IHn']; trivial.
+    rewrite div_2_n.
+    reflexivity.
 Qed.
 
 (* Print mult_S. *)
