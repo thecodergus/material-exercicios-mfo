@@ -62,10 +62,54 @@ Proof.
   - simpl. reflexivity.
 Qed.
 
+Lemma mult_n_1 : forall n,
+  n * 1 = n.
+Proof.
+  intro n. induction n as [|n' IHn'].  
+  - reflexivity.
+  - simpl. rewrite IHn'. reflexivity.
+Qed.
+
+Lemma mult_n_1_1_n : forall n : nat,
+  n * 1 = 1 * n.
+Proof.
+  intro n. induction n as [|n' IHn'].
+  - reflexivity.
+  - simpl. rewrite plus_n_0. rewrite mult_n_1. reflexivity.
+Qed.
+
+Lemma Sn_equal_Sn : forall n : nat,
+  S n = S n.
+Proof.
+  intro n. induction n as [|n' IHn'].
+  - reflexivity.
+  - reflexivity. 
+Qed.
+
+
+
+Lemma div_2_n : forall n,
+  div2 (2 * n) = (div2 2 ) * n.
+Proof.
+  intro n. induction n as [|n' IHn'].
+  - reflexivity.
+  - simpl. rewrite plus_n_0. 
+    rewrite plus_n_Sm. 
+    rewrite mult_2_n_plus. 
+    rewrite IHn'.
+    rewrite div2_2.
+    rewrite <- mult_n_1_1_n.
+    rewrite mult_n_1.
+    reflexivity. 
+Qed.
+
+
 Theorem mul2_div2 : forall n : nat,
   n = div2 (2 * n).
 Proof.
-    
+    intro n. in n as [|n' IHn'].
+    - simpl. reflexivity.
+    - simpl.
 Qed.
 
 (* Print mult_S. *)
