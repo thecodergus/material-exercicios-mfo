@@ -87,7 +87,7 @@ Proof.
 Qed.
 
 Lemma div_2_n n : 
-  div2 (2*n) = n.
+  div2 (2 * n) = n.
 Proof.
   induction n as [|n' IHn']; trivial.
   simpl mul.
