@@ -96,6 +96,7 @@ Proof.
     rewrite app_nil_r.
     reflexivity.
   - simpl.
+     
     
     
 Qed.
