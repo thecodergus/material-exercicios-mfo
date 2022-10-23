@@ -107,12 +107,18 @@ Proof.
     reflexivity.
 Qed.
 
-(* Print mult_S. *)
 
 Theorem div2_mult2_plus: forall (n m : nat),
   n + div2 m = div2 (2 * n + m).
 Proof.
-  Admitted.
+  intros n m. induction n as [|n' IHn'].
+  - reflexivity.
+  - simpl.
+    rewrite plus_n_0.
+    rewrite <- plus_n_Sm.
+    
+    
+Qed.
     
 
 Theorem mult_Sn_m : forall (n m : nat),
