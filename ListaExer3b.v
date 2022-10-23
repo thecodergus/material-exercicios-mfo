@@ -100,6 +100,9 @@ Proof.
     
     
 Qed.
+
+(* https://stackoverflow.com/questions/67008673/foldr-using-foldl-on-finite-lists *)
+
 (* Theorem app_comm_fold :forall {X Y} (f: X->Y->Y) l1 l2 b,
   fold f (l1 ++ l2) b = fold f l1 (fold f l2 b).
 Proof.
