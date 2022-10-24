@@ -90,36 +90,15 @@ Qed.
 Theorem app_comm_fold :forall {X Y} (f: X->Y->Y) l1 l2 b,
   fold f (l1 ++ l2) b = fold f l1 (fold f l2 b).
 Proof.
-  intros X Y l1 l2 b.
-  induction b as [|b' x IH].
+  intros.
+  induction l1 as [|l1' x IH].
   - simpl.
-    rewrite app_nil_r.
     reflexivity.
   - simpl.
-     
-    
-    
-Qed.
-
-(* https://stackoverflow.com/questions/67008673/foldr-using-foldl-on-finite-lists *)
-
-(* Theorem app_comm_fold :forall {X Y} (f: X->Y->Y) l1 l2 b,
-  fold f (l1 ++ l2) b = fold f l1 (fold f l2 b).
-Proof.
-  intros X Y l1 l2 b.
-  unfold fold.
-  change id with (fun x => fold f x nil).
-  change b with (nil ++ b) at 1.
-  generalize (@nil Y).
-  induction b as [|b' x IHb'].
-  - simpl.
-    rewrite app_nil_r.
+    rewrite IH.
     reflexivity.
-  - simpl.
-    rewrite app_length.
-    
 Qed.
-  *)
+
 
 (** Como visto no módulo [Poly.v], muitas funções sobre listas podem ser 
     implementadas usando a função [fold], por exemplo, a função a função 
