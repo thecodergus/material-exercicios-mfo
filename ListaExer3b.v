@@ -13,7 +13,6 @@ Fixpoint fold {X Y: Type} (f: X->Y->Y) (l: list X) (b: Y)
   | h :: t => f h (fold f t b)
   end.
 
-
 (** O tamanho da lista resultante da concatenação de duas listas é
     igual a soma dos tamanhos das listas, prove esse teorema *)
 
@@ -105,7 +104,12 @@ Qed.
     que retorna o número de elementos de uma listas pode ser implementada 
     como: *)
 
-Definition fold_length {X : Type} (l : list X) : nat. Admitted.
+Definition fold_length {X : Type} (l : list X) : nat := 
+  match l with
+  | nil => 0
+  | l' => (fold (fun _ l => l + 1) l 0)
+  end.
+
 
 (** Prove que [fold_length] retorna a número de elementos de uma lista.
     Para facilitar essa prova demostre o lema [fold_length_head]. Dica
