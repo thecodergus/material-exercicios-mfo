@@ -111,6 +111,19 @@ Definition fold_length {X : Type} (l : list X) : nat :=
   end.
 
 
+Lemma S_n n :
+  S n = n + 1.
+Proof.
+  intros.
+  induction n as [|n' IHn'].
+  - simpl.
+    reflexivity.
+  - simpl.
+    rewrite IHn'.
+    reflexivity.    
+Qed.
+
+
 (** Prove que [fold_length] retorna a número de elementos de uma lista.
     Para facilitar essa prova demostre o lema [fold_length_head]. Dica
     as vezes a tática [reflexivty] aplica uma simplificação mais agressiva 
@@ -118,7 +131,15 @@ Definition fold_length {X : Type} (l : list X) : nat :=
 
 Lemma fold_length_head : forall X (h : X) (t : list X),
   fold_length (h::t) = S (fold_length t).
-Proof. Admitted.
+Proof.
+  intros.
+  induction t as [|t' IH].
+  - simpl.
+    reflexivity.
+  - rewrite S_n.
+    simpl.
+    reflexivity.
+Qed.
 
 Theorem fold_length_correct : forall X (l : list X),
   fold_length l = length l.
