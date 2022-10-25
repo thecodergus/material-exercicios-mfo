@@ -174,10 +174,14 @@ Definition fold_map {X Y: Type} (f: X -> Y) (l: list X) : list Y :=
   | [] => []
   | l' => fold (fun x y => (f x)::y) l' nil
   end.
-  
+
 
 Example test_fold_map : fold_map (mult 2) [1; 2; 3] = [2; 4; 6].
-Proof. Admitted. 
+Proof.
+  intros.
+  simpl.
+  reflexivity.  
+Qed.
 
 (** Prove que [fold_map] tem um comportamento identico a [map], defina lemas 
     auxiliares se necessário *)
@@ -185,12 +189,24 @@ Proof. Admitted.
 Theorem fold_map_head : forall X Y (f: X -> Y) (h: X) (t: list X),
   fold_map f (h::t) = f h :: fold_map f t.
 Proof. 
-  Admitted.
+  intros.
+  induction t as [|t' x IHt'].
+  - reflexivity.
+  - simpl.
+    reflexivity. 
+Qed.
 
 Theorem fold_map_correct : forall X Y (f: X -> Y) (l: list X),
   fold_map f l = map f l.
-Proof. 
-  Admitted.
+Proof.
+  intros.
+  induction l as [|l' x IHl'].
+  - reflexivity.
+  - rewrite fold_map_head.
+    simpl.
+    rewrite IHl'.
+    reflexivity. 
+Qed.
 
 (** Podemos imaginar que a função [fold] coloca uma operação binária entre
     cada elelento de uma lista, por exemplo, [fold plus [1; 2; 3] 0] é igual 
