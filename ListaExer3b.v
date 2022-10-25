@@ -214,14 +214,21 @@ Qed.
     binária é executada da direita para esquerda. Declare uma função [foldl]
     que aplique a operação da esquerda para direita: *)
 
-Fixpoint foldl {X Y: Type} (f: Y->X->Y) (b: Y) (l: list X)
-                         : Y. Admitted.
+Fixpoint foldl {X Y: Type} (f: Y->X->Y) (b: Y) (l: list X) : Y :=
+  match l with
+  | nil => b
+  | x :: l' => foldl f (f b x) l'
+  end.
 
 
 (** Exemplo: [foldl minus 10 [1; 2; 3]] igual (((10-1)-2)-3). *)
 
 Example test_foldl : foldl minus 10 [1; 2; 3] = 4.
-Proof. Admitted.
+Proof.
+  intros.
+  simpl.
+  reflexivity.
+Qed.
 
 
 
