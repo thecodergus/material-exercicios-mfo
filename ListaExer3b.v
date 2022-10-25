@@ -167,7 +167,14 @@ Qed.
 (** Também é possível definir a função [map] por meio da função [fold],
     faça essa definição *)
 
-Definition fold_map {X Y: Type} (f: X -> Y) (l: list X) : list Y. Admitted. 
+(* Compute (fold (fun x l => (x + 1)::l) [1;2;3;4;5] nil). *)
+
+Definition fold_map {X Y: Type} (f: X -> Y) (l: list X) : list Y := 
+  match l with
+  | [] => []
+  | l' => fold (fun x y => (f x)::y) l' nil
+  end.
+  
 
 Example test_fold_map : fold_map (mult 2) [1; 2; 3] = [2; 4; 6].
 Proof. Admitted. 
