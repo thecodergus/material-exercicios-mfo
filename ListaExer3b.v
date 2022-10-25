@@ -110,6 +110,13 @@ Definition fold_length {X : Type} (l : list X) : nat :=
   | l' => (fold (fun _ l => l + 1) l 0)
   end.
 
+  
+  
+  
+(** Prove que [fold_length] retorna a número de elementos de uma lista.
+Para facilitar essa prova demostre o lema [fold_length_head]. Dica
+as vezes a tática [reflexivty] aplica uma simplificação mais agressiva 
+que a tática [simpl], isso seŕá util na prova desse lema. *) 
 
 Lemma S_n n :
   S n = n + 1.
@@ -123,11 +130,16 @@ Proof.
     reflexivity.    
 Qed.
 
-
-(** Prove que [fold_length] retorna a número de elementos de uma lista.
-    Para facilitar essa prova demostre o lema [fold_length_head]. Dica
-    as vezes a tática [reflexivty] aplica uma simplificação mais agressiva 
-    que a tática [simpl], isso seŕá util na prova desse lema. *) 
+Lemma n_S n:
+  n + 1 = S n.
+Proof.
+  intros.
+  induction n as [|n' IHn'].
+  - reflexivity.
+  - simpl.
+    rewrite IHn'.
+    reflexivity.
+Qed.
 
 Lemma fold_length_head : forall X (h : X) (t : list X),
   fold_length (h::t) = S (fold_length t).
@@ -136,14 +148,21 @@ Proof.
   induction t as [|t' IH].
   - simpl.
     reflexivity.
-  - rewrite S_n.
-    simpl.
+  - simpl.
+    rewrite n_S.
     reflexivity.
 Qed.
 
 Theorem fold_length_correct : forall X (l : list X),
   fold_length l = length l.
-Proof. Admitted.
+Proof.
+  intros.
+  induction l as [|l' x IHl'].
+  - reflexivity.
+  - rewrite fold_length_head.
+    rewrite IHl'.
+    reflexivity.  
+Qed.
 
 (** Também é possível definir a função [map] por meio da função [fold],
     faça essa definição *)
