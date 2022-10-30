@@ -225,12 +225,12 @@ Print Assumptions NatList.test_member2.
 Goal True.
 idtac " ".
 
-idtac "-------------------  add_inc_count  --------------------".
+idtac "-------------------  bag_theorem  --------------------".
 idtac " ".
 
-idtac "#> Manually graded: NatList.add_inc_count".
+idtac "#> Manually graded: NatList.bag_theorem".
 idtac "Possible points: 2".
-print_manual_grade NatList.manual_grade_for_add_inc_count.
+print_manual_grade NatList.manual_grade_for_bag_theorem.
 idtac " ".
 
 idtac "-------------------  list_exercises  --------------------".
@@ -333,54 +333,24 @@ Print Assumptions NatList.remove_does_not_increase_count.
 Goal True.
 idtac " ".
 
-idtac "-------------------  involution_injective  --------------------".
-idtac " ".
-
-idtac "#> NatList.involution_injective".
-idtac "Advanced".
-idtac "Possible points: 3".
-check_type @NatList.involution_injective (
-(forall f : nat -> nat,
- (forall n : nat, n = f (f n)) -> forall n1 n2 : nat, f n1 = f n2 -> n1 = n2)).
-idtac "Assumptions:".
-Abort.
-Print Assumptions NatList.involution_injective.
-Goal True.
-idtac " ".
-
 idtac "-------------------  rev_injective  --------------------".
 idtac " ".
 
-idtac "#> NatList.rev_injective".
+idtac "#> Manually graded: NatList.rev_injective".
 idtac "Advanced".
-idtac "Possible points: 2".
-check_type @NatList.rev_injective (
-(forall l1 l2 : NatList.natlist, NatList.rev l1 = NatList.rev l2 -> l1 = l2)).
-idtac "Assumptions:".
-Abort.
-Print Assumptions NatList.rev_injective.
-Goal True.
+idtac "Possible points: 4".
+print_manual_grade NatList.manual_grade_for_rev_injective.
 idtac " ".
 
 idtac "-------------------  hd_error  --------------------".
 idtac " ".
 
-idtac "#> NatList.test_hd_error1".
-idtac "Possible points: 1".
-check_type @NatList.test_hd_error1 ((NatList.hd_error NatList.nil = NatList.None)).
+idtac "#> NatList.hd_error".
+idtac "Possible points: 2".
+check_type @NatList.hd_error ((NatList.natlist -> NatList.natoption)).
 idtac "Assumptions:".
 Abort.
-Print Assumptions NatList.test_hd_error1.
-Goal True.
-idtac " ".
-
-idtac "#> NatList.test_hd_error2".
-idtac "Possible points: 1".
-check_type @NatList.test_hd_error2 (
-(NatList.hd_error (NatList.cons 1 NatList.nil) = NatList.Some 1)).
-idtac "Assumptions:".
-Abort.
-Print Assumptions NatList.test_hd_error2.
+Print Assumptions NatList.hd_error.
 Goal True.
 idtac " ".
 
@@ -389,7 +359,7 @@ idtac " ".
 
 idtac "#> eqb_id_refl".
 idtac "Possible points: 1".
-check_type @eqb_id_refl ((forall x : id, eqb_id x x = true)).
+check_type @eqb_id_refl ((forall x : id, true = eqb_id x x)).
 idtac "Assumptions:".
 Abort.
 Print Assumptions eqb_id_refl.
@@ -425,31 +395,20 @@ Print Assumptions PartialMap.update_neq.
 Goal True.
 idtac " ".
 
+idtac "-------------------  baz_num_elts  --------------------".
 idtac " ".
 
-idtac "Max points - standard: 19".
-idtac "Max points - advanced: 30".
-idtac "".
-idtac "Allowed Axioms:".
-idtac "functional_extensionality".
-idtac "FunctionalExtensionality.functional_extensionality_dep".
-idtac "plus_le".
-idtac "le_trans".
-idtac "le_plus_l".
-idtac "add_le_cases".
-idtac "Sn_le_Sm__n_le_m".
-idtac "O_le_n".
-idtac "".
+idtac "#> Manually graded: baz_num_elts".
+idtac "Possible points: 2".
+print_manual_grade manual_grade_for_baz_num_elts.
+idtac " ".
+
+idtac " ".
+
+idtac "Max points - standard: 21".
+idtac "Max points - advanced: 31".
 idtac "".
 idtac "********** Summary **********".
-idtac "".
-idtac "Below is a summary of the automatically graded exercises that are incomplete.".
-idtac "".
-idtac "The output for each exercise can be any of the following:".
-idtac "  - 'Closed under the global context', if it is complete".
-idtac "  - 'MANUAL', if it is manually graded".
-idtac "  - A list of pending axioms, containing unproven assumptions. In this case".
-idtac "    the exercise is considered complete, if the axioms are all allowed.".
 idtac "".
 idtac "********** Standard **********".
 idtac "---------- NatList.snd_fst_is_swap ---------".
@@ -474,7 +433,7 @@ idtac "---------- NatList.test_member1 ---------".
 Print Assumptions NatList.test_member1.
 idtac "---------- NatList.test_member2 ---------".
 Print Assumptions NatList.test_member2.
-idtac "---------- add_inc_count ---------".
+idtac "---------- bag_theorem ---------".
 idtac "MANUAL".
 idtac "---------- NatList.app_nil_r ---------".
 Print Assumptions NatList.app_nil_r.
@@ -490,16 +449,16 @@ idtac "---------- NatList.eqblist_refl ---------".
 Print Assumptions NatList.eqblist_refl.
 idtac "---------- NatList.count_member_nonzero ---------".
 Print Assumptions NatList.count_member_nonzero.
-idtac "---------- NatList.test_hd_error1 ---------".
-Print Assumptions NatList.test_hd_error1.
-idtac "---------- NatList.test_hd_error2 ---------".
-Print Assumptions NatList.test_hd_error2.
+idtac "---------- NatList.hd_error ---------".
+Print Assumptions NatList.hd_error.
 idtac "---------- eqb_id_refl ---------".
 Print Assumptions eqb_id_refl.
 idtac "---------- PartialMap.update_eq ---------".
 Print Assumptions PartialMap.update_eq.
 idtac "---------- PartialMap.update_neq ---------".
 Print Assumptions PartialMap.update_neq.
+idtac "---------- baz_num_elts ---------".
+idtac "MANUAL".
 idtac "".
 idtac "********** Advanced **********".
 idtac "---------- NatList.test_alternate1 ---------".
@@ -510,12 +469,8 @@ idtac "---------- NatList.test_alternate4 ---------".
 Print Assumptions NatList.test_alternate4.
 idtac "---------- NatList.remove_does_not_increase_count ---------".
 Print Assumptions NatList.remove_does_not_increase_count.
-idtac "---------- NatList.involution_injective ---------".
-Print Assumptions NatList.involution_injective.
-idtac "---------- NatList.rev_injective ---------".
-Print Assumptions NatList.rev_injective.
+idtac "---------- rev_injective ---------".
+idtac "MANUAL".
 Abort.
 
-(* 2022-08-08 17:13 *)
-
-(* 2022-08-08 17:13 *)
+(* Wed Jan 9 12:02:08 EST 2019 *)

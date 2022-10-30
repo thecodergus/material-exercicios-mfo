@@ -6,8 +6,7 @@ let explode s =
   exp (String.length s - 1) [];;
 
 let test s =
-  print_newline();
-  print_endline ("Propgram: " ^ s);
+  print_endline s;
   let parse_res = parse (explode s) in
   (match parse_res with
     NoneE _ -> print_endline ("Syntax error");
@@ -23,15 +22,16 @@ let test s =
             ^ string_of_int (res ['w']) ^ " " 
             ^ string_of_int (res ['x']) ^ " " 
             ^ string_of_int (res ['y']) ^ " " 
-            ^ string_of_int (res ['z']) ^ " ...]"))
+            ^ string_of_int (res ['z']) ^ " ...]"));
+  print_newline();
 ;;
 
-test "x:=1 ; y:=2";;
+test "x:=1 ;; y:=2";;
 
 test "true";;  (* syntax error *)
-test "skip";;
-test "skip;skip";;
-test "while true do skip end";;
+test "SKIP";;
+test "SKIP;;SKIP";;
+test "WHILE true DO SKIP END";;
 test "x:=3";;
-test "x:=3; while 0<=x do skip end";;
-test "x:=3; while 1<=x do y:=y+1; x:=x-1 end";;
+test "x:=3;; WHILE 0<=x DO SKIP END";;
+test "x:=3;; WHILE 1<=x DO y:=y+1;; x:=x-1 END";;

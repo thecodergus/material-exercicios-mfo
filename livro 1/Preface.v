@@ -3,18 +3,16 @@
 (* ################################################################# *)
 (** * Welcome *)
 
-(** This is the entry point to a series of electronic textbooks on
-    various aspects of _Software Foundations_, the mathematical
+(** This is the entry point in a series of electronic textbooks on
+    various aspects of _Software Foundations_ -- the mathematical
     underpinnings of reliable software.  Topics in the series include
     basic concepts of logic, computer-assisted theorem proving, the
     Coq proof assistant, functional programming, operational
-    semantics, logics and techniques for reasoning about programs,
-    static type systems, property-based random testing, and
-    verification of practical C code.  The exposition is intended for
-    a broad range of readers, from advanced undergraduates to PhD
-    students and researchers.  No specific background in logic or
-    programming languages is assumed, though a degree of mathematical
-    maturity will be helpful.
+    semantics, logics for reasoning about programs, and static type
+    systems.  The exposition is intended for a broad range of readers,
+    from advanced undergraduates to PhD students and researchers.  No
+    specific background in logic or programming languages is assumed,
+    though a degree of mathematical maturity will be helpful.
 
     The principal novelty of the series is that it is one hundred
     percent formalized and machine-checked: each text is literally a
@@ -37,16 +35,16 @@
 (* ################################################################# *)
 (** * Overview *)
 
-(** Building reliable software is really hard -- really hard.  The
-    scale and complexity of modern systems, the number of people
-    involved, and the range of demands placed on them make it
-    challenging to build software that is even more-or-less correct,
-    much less 100%% correct.  At the same time, the increasing degree
-    to which information processing is woven into every aspect of
-    society greatly amplifies the cost of bugs and insecurities.
+(** Building reliable software is really hard.  The scale and
+    complexity of modern systems, the number of people involved, and
+    the range of demands placed on them make it extremely difficult to
+    build software that is even more-or-less correct, much less 100%%
+    correct.  At the same time, the increasing degree to which
+    information processing is woven into every aspect of society
+    greatly amplifies the cost of bugs and insecurities.
 
     Computer scientists and software engineers have responded to these
-    challenges by developing a host of techniques for improving
+    challenges by developing a whole host of techniques for improving
     software reliability, ranging from recommendations about managing
     software projects teams (e.g., extreme programming) to design
     philosophies for libraries (e.g., model-view-controller,
@@ -55,9 +53,9 @@
     functional programming, ...) to mathematical techniques for
     specifying and reasoning about properties of software and tools
     for helping validate these properties.  The _Software Foundations_
-    series is focused on this last set of tools.
+    series is focused on this last set of techniques.
 
-    This volume weaves together three conceptual threads:
+    The text is constructed around three conceptual threads:
 
     (1) basic tools from _logic_ for making and justifying precise
         claims about programs;
@@ -67,7 +65,11 @@
 
     (3) _functional programming_, both as a method of programming that
         simplifies reasoning about programs and as a bridge between
-        programming and logic. *)
+        programming and logic.
+
+    Some suggestions for further reading can be found in the
+    [Postscript] chapter.  Bibliographic information for all
+    cited works can be found in the file [Bib]. *)
 
 (* ================================================================= *)
 (** ** Logic *)
@@ -141,12 +143,12 @@
     - As an _environment for developing formally certified software
       and hardware_, Coq has been used, for example, to build
       CompCert, a fully-verified optimizing compiler for C, and
-      CertiKOS, a fully verified hypervisor, for proving the
+      CertiKos, a fully verified hypervisor, for proving the
       correctness of subtle algorithms involving floating point
       numbers, and as the basis for CertiCrypt, an environment for
       reasoning about the security of cryptographic algorithms.  It is
       also being used to build verified implementations of the
-      open-source RISC-V processor architecture.
+      open-source RISC-V processor.
 
     - As a _realistic environment for functional programming with
       dependent types_, it has inspired numerous innovations.  For
@@ -159,13 +161,13 @@
       example, its ability to include complex computations inside
       proofs made it possible to develop the first formally verified
       proof of the 4-color theorem.  This proof had previously been
-      controversial among mathematicians because it required checking
-      a large number of configurations using a program. In the Coq
-      formalization, everything is checked, including the correctness
-      of the computational part.  More recently, an even more massive
-      effort led to a Coq formalization of the Feit-Thompson Theorem,
-      the first major step in the classification of finite simple
-      groups.
+      controversial among mathematicians because part of it included
+      checking a large number of configurations using a program. In
+      the Coq formalization, everything is checked, including the
+      correctness of the computational part.  More recently, an even
+      more massive effort led to a Coq formalization of the
+      Feit-Thompson Theorem -- the first major step in the
+      classification of finite simple groups.
 
    By the way, in case you're wondering about the name, here's what
    the official Coq web site at INRIA (the French national research
@@ -189,11 +191,12 @@
 
     Functional programming has been developed over many decades --
     indeed, its roots go back to Church's lambda-calculus, which was
-    invented in the 1930s, well _before_ the first electronic
-    computers!  But since the early '90s it has enjoyed a surge of
-    interest among industrial engineers and language designers,
-    playing a key role in high-value systems at companies like Jane
-    Street Capital, Microsoft, Facebook, Twitter, and Ericsson.
+    invented in the 1930s, well before the first computers (at least
+    the first electronic ones)!  But since the early '90s it has
+    enjoyed a surge of interest among industrial engineers and
+    language designers, playing a key role in high-value systems at
+    companies like Jane St. Capital, Microsoft, Facebook, and
+    Ericsson.
 
     The most basic tenet of functional programming is that, as much as
     possible, computation should be _pure_, in the sense that the only
@@ -210,8 +213,8 @@
     operation on a data structure yields a new data structure, leaving
     the old one intact, then there is no need to worry about how that
     structure is being shared and whether a change by one part of the
-    program might break an invariant relied on by another part of the
-    program.  These considerations are particularly critical in
+    program might break an invariant that another part of the program
+    relies on.  These considerations are particularly critical in
     concurrent systems, where every piece of mutable state that is
     shared between threads is a potential source of pernicious bugs.
     Indeed, a large part of the recent interest in functional
@@ -220,15 +223,15 @@
 
     Another reason for the current excitement about functional
     programming is related to the first: functional programs are often
-    much easier to parallelize and physically distribute than their
-    imperative counterparts.  If running a computation has no effect
-    other than producing a result, then it does not matter _where_ it
-    is run.  Similarly, if a data structure is never modified
-    destructively, then it can be copied freely, across cores or
-    across the network.  Indeed, the "Map-Reduce" idiom, which lies at
-    the heart of massively distributed query processors like Hadoop
-    and is used by Google to index the entire web is a classic example
-    of functional programming.
+    much easier to parallelize than their imperative counterparts.  If
+    running a computation has no effect other than producing a result,
+    then it does not matter _where_ it is run.  Similarly, if a data
+    structure is never modified destructively, then it can be copied
+    freely, across cores or across the network.  Indeed, the
+    "Map-Reduce" idiom, which lies at the heart of massively
+    distributed query processors like Hadoop and is used by Google to
+    index the entire web is a classic example of functional
+    programming.
 
     For purposes of this course, functional programming has yet
     another significant attraction: it serves as a bridge between
@@ -244,12 +247,17 @@
 
 (** This text is intended to be self contained, but readers looking
     for a deeper treatment of particular topics will find some
-    suggestions for further reading in the [Postscript] chapter.
-    Bibliographic information for all cited works can be found in the
-    file [Bib].*)
+    suggestions for further reading in the [Postscript]
+    chapter. *)
 
 (* ################################################################# *)
 (** * Practicalities *)
+
+(* ================================================================= *)
+(** ** Chapter Dependencies *)
+
+(** A diagram of the dependencies between chapters and some suggested
+    paths through the material can be found in the file [deps.html]. *)
 
 (* ================================================================= *)
 (** ** System Requirements *)
@@ -257,7 +265,7 @@
 (** Coq runs on Windows, Linux, and macOS.  You will need:
 
     - A current installation of Coq, available from the Coq home page.
-      These files have been tested with Coq 8.15.
+      These files have been tested with Coq 8.8.1.
 
     - An IDE for interacting with Coq.  Currently, there are two
       choices:
@@ -267,7 +275,7 @@
           It requires a separate installation (google "Proof
           General").
 
-          Adventurous users of Coq within Emacs may want to check
+          Adventurous users of Coq within Emacs may also want to check
           out extensions such as [company-coq] and [control-lock].
 
         - CoqIDE is a simpler stand-alone IDE.  It is distributed with
@@ -279,8 +287,7 @@
           Users who like CoqIDE should consider running it with the
           "asynchronous" and "error resilience" modes disabled:
 
-          coqide -async-proofs off \
-                 -async-proofs-command-error-resilience off Foo.v &
+  coqide -async-proofs off -async-proofs-command-error-resilience off Foo.v &
 *)
 
 (* ================================================================= *)
@@ -301,16 +308,7 @@
        - Four and five stars: more difficult exercises (half an hour
          and up).
 
-    Those using SF in a classroom setting should note that the autograder
-    assigns extra points to harder exercises:
-
-      1 star  = 1 point
-      2 stars = 2 points
-      3 stars = 3 points
-      4 stars = 6 points
-      5 stars = 10 points
-
-    Some exercises are marked "advanced," and some are marked
+    Also, some exercises are marked "advanced," and some are marked
     "optional."  Doing just the non-optional, non-advanced exercises
     should provide good coverage of the core material.  Optional
     exercises provide a bit of extra practice with key concepts and
@@ -331,43 +329,12 @@
 
 (** A tar file containing the full sources for the "release version"
     of this book (as a collection of Coq scripts and HTML files) is
-    available at {https://softwarefoundations.cis.upenn.edu}.
+    available at http://softwarefoundations.cis.upenn.edu.
 
     If you are using the book as part of a class, your professor may
     give you access to a locally modified version of the files; you
-    should use that one instead of the public release version, so that
+    should use this one instead of the public release version, so that
     you get any local updates during the semester. *)
-
-(* ================================================================= *)
-(** ** Chapter Dependencies *)
-
-(** A diagram of the dependencies between chapters and some suggested
-    paths through the material can be found in the file [deps.html]. *)
-
-(* ================================================================= *)
-(** ** Recommended Citation Format *)
-
-(** If you want to refer to this volume in your own writing, please
-    do so as follows:
-
-    @book            {Pierce:SF1,
-    author       =   {Benjamin C. Pierce and
-		      Arthur Azevedo de Amorim and
-		      Chris Casinghino and
-		      Marco Gaboardi and
-		      Michael Greenberg and
-		      Cătălin Hriţcu and
-		      Vilhelm Sjöberg and
-		      Brent Yorgey},
-    editor       =   {Benjamin C. Pierce},
-    title        =   "Logical Foundations",
-    series       =   "Software Foundations",
-    volume       =   "1",
-    year         =   "2022",
-    publisher    =   "Electronic textbook",
-    note         =   {Version 6.2, \URL{http://softwarefoundations.cis.upenn.edu}}
-    }
-*)
 
 (* ################################################################# *)
 (** * Resources *)
@@ -378,7 +345,7 @@
 (** A large compendium of exams from many offerings of
     CIS500 ("Software Foundations") at the University of Pennsylvania
     can be found at
-    {https://www.seas.upenn.edu/~cis500/current/exams/index.html}.
+    https://www.seas.upenn.edu/~cis500/current/exams/index.html.
     There has been some drift of notations over the years, but most of
     the problems are still relevant to the current text. *)
 
@@ -387,18 +354,17 @@
 
 (** Lectures for two intensive summer courses based on _Logical
     Foundations_ (part of the DeepSpec summer school series) can be
-    found at {https://deepspec.org/event/dsss17} and
-    {https://deepspec.org/event/dsss18/}.  The video quality in the
+    found at https://deepspec.org/event/dsss17 and
+    https://deepspec.org/event/dsss18/.  The video quality in the
     2017 lectures is poor at the beginning but gets better in the
     later lectures. *)
 
 (* ################################################################# *)
-(** * Note for Instructors and Contributors *)
+(** * Note for Instructors *)
 
-(** If you plan to use these materials in your own teaching, or if you
-    are using software foundations for self study and are finding
-    things you'd like to help add or improve, your contributions are
-    welcome!  You are warmly invited to join the private SF git repo.
+(** If you plan to use these materials in your own course, you will
+    undoubtedly find things you'd like to change, improve, or add.
+    Your contributions are welcome!
 
     In order to keep the legalities simple and to have a single point
     of responsibility in case the need should ever arise to adjust the
@@ -416,13 +382,11 @@
         2016 as (respectively) "Logical Foundations" and "Programming
         Foundations," and for Volume 4, "QuickChick: Property-Based
         Testing in Coq," the Author of Record is Benjamin C. Pierce.
-        For Volume 3, "Verified Functional Algorithms," and volume 5,
-        "Verifiable C," the Author of Record is Andrew W. Appel. For
-        Volume 6, "Separation Logic Foundations," the author of record
-        is Arthur Chargueraud. For components outside of designated
-        volumes (e.g., typesetting and grading tools and other
-        software infrastructure), the Author of Record is Benjamin
-        Pierce.
+        For Volume 3, "Verified Functional Algorithms", the Author of
+        Record is Andrew W. Appel. For components outside of
+        designated volumes (e.g., typesetting and grading tools and
+        other software infrastructure), the Author of Record is
+        Benjamin Pierce.
 
     To get started, please send an email to Benjamin Pierce,
     describing yourself and how you plan to use the materials and
@@ -430,16 +394,16 @@
     github username.
 
     We'll set you up with access to the git repository and developers'
-    mailing lists.  In the repository you'll find the files
-    [INSTRUCTORS] and [CONTRIBUTING] with further instructions. *)
+    mailing lists.  In the repository you'll find a file [INSTRUCTORS]
+    with further instructions. *)
 
 (* ################################################################# *)
 (** * Translations *)
 
 (** Thanks to the efforts of a team of volunteer translators,
     _Software Foundations_ can be enjoyed in Japanese at
-    {http://proofcafe.org/sf}.  A Chinese translation is also underway;
-    you can preview it at {https://coq-zh.github.io/SF-zh/}. *)
+    http://proofcafe.org/sf.  A Chinese translation is also underway;
+    you can preview it at https://coq-zh.github.io/SF-zh/. *)
 
 (* ################################################################# *)
 (** * Thanks *)
@@ -449,4 +413,4 @@
     NSF Expeditions grant 1521523, _The Science of Deep
     Specification_. *)
 
-(* 2022-08-08 17:13 *)
+(* Wed Jan 9 12:02:43 EST 2019 *)

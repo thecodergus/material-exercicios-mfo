@@ -56,15 +56,15 @@ Print Assumptions and_assoc.
 Goal True.
 idtac " ".
 
-idtac "-------------------  mult_is_O  --------------------".
+idtac "-------------------  mult_eq_0  --------------------".
 idtac " ".
 
-idtac "#> mult_is_O".
+idtac "#> mult_eq_0".
 idtac "Possible points: 1".
-check_type @mult_is_O ((forall n m : nat, n * m = 0 -> n = 0 \/ m = 0)).
+check_type @mult_eq_0 ((forall n m : nat, n * m = 0 -> n = 0 \/ m = 0)).
 idtac "Assumptions:".
 Abort.
-Print Assumptions mult_is_O.
+Print Assumptions mult_eq_0.
 Goal True.
 idtac " ".
 
@@ -122,18 +122,6 @@ idtac "Possible points: 1".
 print_manual_grade manual_grade_for_informal_not_PNP.
 idtac " ".
 
-idtac "-------------------  de_morgan_not_or  --------------------".
-idtac " ".
-
-idtac "#> de_morgan_not_or".
-idtac "Possible points: 2".
-check_type @de_morgan_not_or ((forall P Q : Prop, ~ (P \/ Q) -> ~ P /\ ~ Q)).
-idtac "Assumptions:".
-Abort.
-Print Assumptions de_morgan_not_or.
-Goal True.
-idtac " ".
-
 idtac "-------------------  or_distributes_over_and  --------------------".
 idtac " ".
 
@@ -179,7 +167,7 @@ idtac "-------------------  In_map_iff  --------------------".
 idtac " ".
 
 idtac "#> In_map_iff".
-idtac "Possible points: 3".
+idtac "Possible points: 2".
 check_type @In_map_iff (
 (forall (A B : Type) (f : A -> B) (l : list A) (y : B),
  @In B y (@map A B f l) <-> (exists x : A, f x = y /\ @In A x l))).
@@ -206,14 +194,24 @@ idtac " ".
 idtac "-------------------  All  --------------------".
 idtac " ".
 
-idtac "#> All_In".
+idtac "#> All".
 idtac "Possible points: 3".
-check_type @All_In (
-(forall (T : Type) (P : T -> Prop) (l : list T),
- (forall x : T, @In T x l -> P x) <-> @All T P l)).
+check_type @All ((forall T : Type, (T -> Prop) -> list T -> Prop)).
 idtac "Assumptions:".
 Abort.
-Print Assumptions All_In.
+Print Assumptions All.
+Goal True.
+idtac " ".
+
+idtac "-------------------  combine_odd_even  --------------------".
+idtac " ".
+
+idtac "#> combine_odd_even".
+idtac "Possible points: 3".
+check_type @combine_odd_even (((nat -> Prop) -> (nat -> Prop) -> nat -> Prop)).
+idtac "Assumptions:".
+Abort.
+Print Assumptions combine_odd_even.
 Goal True.
 idtac " ".
 
@@ -221,7 +219,7 @@ idtac "-------------------  tr_rev_correct  --------------------".
 idtac " ".
 
 idtac "#> tr_rev_correct".
-idtac "Possible points: 6".
+idtac "Possible points: 4".
 check_type @tr_rev_correct ((forall X : Type, @tr_rev X = @rev X)).
 idtac "Assumptions:".
 Abort.
@@ -229,17 +227,17 @@ Print Assumptions tr_rev_correct.
 Goal True.
 idtac " ".
 
-idtac "-------------------  even_double_conv  --------------------".
+idtac "-------------------  evenb_double_conv  --------------------".
 idtac " ".
 
-idtac "#> even_double_conv".
+idtac "#> evenb_double_conv".
 idtac "Possible points: 3".
-check_type @even_double_conv (
+check_type @evenb_double_conv (
 (forall n : nat,
- exists k : nat, n = (if even n then double k else S (double k)))).
+ exists k : nat, n = (if evenb n then double k else S (double k)))).
 idtac "Assumptions:".
 Abort.
-Print Assumptions even_double_conv.
+Print Assumptions evenb_double_conv.
 Goal True.
 idtac " ".
 
@@ -281,15 +279,12 @@ idtac " ".
 idtac "-------------------  eqb_list  --------------------".
 idtac " ".
 
-idtac "#> eqb_list_true_iff".
+idtac "#> eqb_list".
 idtac "Possible points: 3".
-check_type @eqb_list_true_iff (
-(forall (A : Type) (eqb : A -> A -> bool),
- (forall a1 a2 : A, eqb a1 a2 = true <-> a1 = a2) ->
- forall l1 l2 : list A, @eqb_list A eqb l1 l2 = true <-> l1 = l2)).
+check_type @eqb_list ((forall A : Type, (A -> A -> bool) -> list A -> list A -> bool)).
 idtac "Assumptions:".
 Abort.
-Print Assumptions eqb_list_true_iff.
+Print Assumptions eqb_list.
 Goal True.
 idtac " ".
 
@@ -337,45 +332,24 @@ idtac " ".
 
 idtac " ".
 
-idtac "Max points - standard: 45".
-idtac "Max points - advanced: 51".
-idtac "".
-idtac "Allowed Axioms:".
-idtac "functional_extensionality".
-idtac "FunctionalExtensionality.functional_extensionality_dep".
-idtac "plus_le".
-idtac "le_trans".
-idtac "le_plus_l".
-idtac "add_le_cases".
-idtac "Sn_le_Sm__n_le_m".
-idtac "O_le_n".
-idtac "".
+idtac "Max points - standard: 43".
+idtac "Max points - advanced: 49".
 idtac "".
 idtac "********** Summary **********".
-idtac "".
-idtac "Below is a summary of the automatically graded exercises that are incomplete.".
-idtac "".
-idtac "The output for each exercise can be any of the following:".
-idtac "  - 'Closed under the global context', if it is complete".
-idtac "  - 'MANUAL', if it is manually graded".
-idtac "  - A list of pending axioms, containing unproven assumptions. In this case".
-idtac "    the exercise is considered complete, if the axioms are all allowed.".
 idtac "".
 idtac "********** Standard **********".
 idtac "---------- and_exercise ---------".
 Print Assumptions and_exercise.
 idtac "---------- and_assoc ---------".
 Print Assumptions and_assoc.
-idtac "---------- mult_is_O ---------".
-Print Assumptions mult_is_O.
+idtac "---------- mult_eq_0 ---------".
+Print Assumptions mult_eq_0.
 idtac "---------- or_commut ---------".
 Print Assumptions or_commut.
 idtac "---------- contrapositive ---------".
 Print Assumptions contrapositive.
 idtac "---------- not_both_true_and_false ---------".
 Print Assumptions not_both_true_and_false.
-idtac "---------- de_morgan_not_or ---------".
-Print Assumptions de_morgan_not_or.
 idtac "---------- or_distributes_over_and ---------".
 Print Assumptions or_distributes_over_and.
 idtac "---------- dist_not_exists ---------".
@@ -386,20 +360,22 @@ idtac "---------- In_map_iff ---------".
 Print Assumptions In_map_iff.
 idtac "---------- In_app_iff ---------".
 Print Assumptions In_app_iff.
-idtac "---------- All_In ---------".
-Print Assumptions All_In.
+idtac "---------- All ---------".
+Print Assumptions All.
+idtac "---------- combine_odd_even ---------".
+Print Assumptions combine_odd_even.
 idtac "---------- tr_rev_correct ---------".
 Print Assumptions tr_rev_correct.
-idtac "---------- even_double_conv ---------".
-Print Assumptions even_double_conv.
+idtac "---------- evenb_double_conv ---------".
+Print Assumptions evenb_double_conv.
 idtac "---------- andb_true_iff ---------".
 Print Assumptions andb_true_iff.
 idtac "---------- orb_true_iff ---------".
 Print Assumptions orb_true_iff.
 idtac "---------- eqb_neq ---------".
 Print Assumptions eqb_neq.
-idtac "---------- eqb_list_true_iff ---------".
-Print Assumptions eqb_list_true_iff.
+idtac "---------- eqb_list ---------".
+Print Assumptions eqb_list.
 idtac "---------- forallb_true_iff ---------".
 Print Assumptions forallb_true_iff.
 idtac "---------- excluded_middle_irrefutable ---------".
@@ -414,6 +390,4 @@ idtac "---------- not_exists_dist ---------".
 Print Assumptions not_exists_dist.
 Abort.
 
-(* 2022-08-08 17:14 *)
-
-(* 2022-08-08 17:14 *)
+(* Wed Jan 9 12:02:13 EST 2019 *)

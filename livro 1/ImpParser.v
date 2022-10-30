@@ -17,13 +17,14 @@
     make out -- but most readers will probably want to just skim down
     to the Examples section at the very end to get the punchline. *)
 
-Set Warnings "-notation-overridden,-parsing,-deprecated-hint-without-locality".
+Set Warnings "-notation-overridden,-parsing".
 From Coq Require Import Strings.String.
 From Coq Require Import Strings.Ascii.
 From Coq Require Import Arith.Arith.
 From Coq Require Import Init.Nat.
 From Coq Require Import Arith.EqNat.
-From Coq Require Import Lists.List. Import ListNotations.
+From Coq Require Import Lists.List.
+Import ListNotations.
 From LF Require Import Maps Imp.
 
 (* ################################################################# *)
@@ -73,7 +74,7 @@ Fixpoint list_of_string (s : string) : list ascii :=
   | String c s => c :: (list_of_string s)
   end.
 
-Definition string_of_list (xs : list ascii) : string :=
+Fixpoint string_of_list (xs : list ascii) : string :=
   fold_right String EmptyString xs.
 
 Definition token := string.
@@ -165,7 +166,7 @@ Fixpoint many_helper {T} (p : parser T) acc steps xs :=
 
 (** A (step-indexed) parser that expects zero or more [p]s: *)
 
-Definition many {T} (p : parser T) (steps : nat) : parser (list T) :=
+Fixpoint many {T} (p : parser T) (steps : nat) : parser (list T) :=
   many_helper p [] steps.
 
 (** A parser that expects a given token, followed by [p]: *)
@@ -354,35 +355,35 @@ Fixpoint parseSimpleCommand (steps:nat)
   match steps with
   | 0 => NoneE "Too many recursive calls"
   | S steps' =>
-    TRY ' (u, rest) <- expect "skip" xs ;;
-        SomeE (<{skip}>, rest)
+    TRY ' (u, rest) <- expect "SKIP" xs ;;
+        SomeE (SKIP%imp, rest)
     OR
     TRY ' (e,rest) <-
-            firstExpect "if"
+            firstExpect "TEST"
                         (parseBExp steps') xs ;;
         ' (c,rest') <-
-            firstExpect "then"
+            firstExpect "THEN"
                         (parseSequencedCommand steps') rest ;;
         ' (c',rest'') <-
-            firstExpect "else"
+            firstExpect "ELSE"
                         (parseSequencedCommand steps') rest' ;;
         ' (tt,rest''') <-
-            expect "end" rest'' ;;
-       SomeE(<{if e then c else c' end}>, rest''')
+            expect "END" rest'' ;;
+       SomeE(TEST e THEN c ELSE c' FI%imp, rest''')
     OR
     TRY ' (e,rest) <-
-            firstExpect "while"
+            firstExpect "WHILE"
                         (parseBExp steps') xs ;;
         ' (c,rest') <-
-            firstExpect "do"
+            firstExpect "DO"
                         (parseSequencedCommand steps') rest ;;
         ' (u,rest'') <-
-            expect "end" rest' ;;
-        SomeE(<{while e do c end}>, rest'')
+            expect "END" rest' ;;
+        SomeE(WHILE e DO c END%imp, rest'')
     OR
     TRY ' (i, rest) <- parseIdentifier xs ;;
-        ' (e, rest') <- firstExpect ":=" (parseAExp steps') rest ;;
-        SomeE (<{i := e}>, rest')
+        ' (e, rest') <- firstExpect "::=" (parseAExp steps') rest ;;
+        SomeE ((i ::= e)%imp, rest')
     OR
         NoneE "Expecting a command"
 end
@@ -394,9 +395,9 @@ with parseSequencedCommand (steps:nat)
   | S steps' =>
     ' (c, rest) <- parseSimpleCommand steps' xs ;;
     TRY ' (c', rest') <-
-            firstExpect ";"
+            firstExpect ";;"
                         (parseSequencedCommand steps') rest ;;
-        SomeE (<{c ; c'}>, rest')
+        SomeE ((c ;; c')%imp, rest')
     OR
     SomeE (c, rest)
   end.
@@ -415,49 +416,49 @@ Definition parse (str : string) : optionE com :=
 (** * Examples *)
 
 Example eg1 : parse "
-  if x = y + 1 + 2 - y * 6 + 3 then
-    x := x * 1;
-    y := 0
-  else
-    skip
-  end  "
+  TEST x = y + 1 + 2 - y * 6 + 3 THEN
+    x ::= x * 1;;
+    y ::= 0
+  ELSE
+    SKIP
+  END  "
 =
-  SomeE <{
-      if ("x" = ("y" + 1 + 2 - "y" * 6 + 3)) then
-        "x" := "x" * 1;
-        "y" := 0
-      else
-        skip
-      end }>.
+  SomeE (
+      TEST "x" = "y" + 1 + 2 - "y" * 6 + 3 THEN
+        "x" ::= "x" * 1;;
+        "y" ::= 0
+      ELSE
+        SKIP
+      FI)%imp.
 Proof. cbv. reflexivity. Qed.
 
 Example eg2 : parse "
-  skip;
-  z:=x*y*(x*x);
-  while x=x do
-    if (z <= z*z) && ~(x = 2) then
-      x := z;
-      y := z
-    else
-      skip
-    end;
-    skip
-  end;
-  x:=z  "
+  SKIP;;
+  z::=x*y*(x*x);;
+  WHILE x=x DO
+    TEST (z <= z*z) && ~(x = 2) THEN
+      x ::= z;;
+      y ::= z
+    ELSE
+      SKIP
+    END;;
+    SKIP
+  END;;
+  x::=z  "
 =
-  SomeE <{
-      skip;
-      "z" := "x" * "y" * ("x" * "x");
-      while ("x" = "x") do
-        if ("z" <= "z" * "z") && ~("x" = 2) then
-          "x" := "z";
-          "y" := "z"
-        else
-          skip
-        end;
-        skip
-      end;
-      "x" := "z" }>.
+  SomeE (
+      SKIP;;
+      "z" ::= "x" * "y" * ("x" * "x");;
+      WHILE "x" = "x" DO
+        TEST ("z" <= "z" * "z") && ~("x" = 2) THEN
+          "x" ::= "z";;
+          "y" ::= "z"
+        ELSE
+          SKIP
+        FI;;
+        SKIP
+      END;;
+      "x" ::= "z")%imp.
 Proof. cbv. reflexivity. Qed.
 
-(* 2022-08-08 17:13 *)
+(* Wed Jan 9 12:02:46 EST 2019 *)
