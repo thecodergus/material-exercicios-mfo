@@ -1,7 +1,7 @@
 (** * Logic: Logic in Coq *)
 
 Set Warnings "-notation-overridden,-parsing".
-From LF Require Export Tactics.
+(* From LF Require Export Tactics. *)
 
 (** In previous chapters, we have seen many examples of factual
     claims (_propositions_) and ways of presenting evidence of their
@@ -252,10 +252,10 @@ Qed.
 Theorem and_commut : forall P Q : Prop,
   P /\ Q -> Q /\ P.
 Proof.
-  intros P Q [HP HQ].
+  intros.
   split.
-    - (* left *) apply HQ.
-    - (* right *) apply HP.
+    - (* left *) apply H.
+    - (* right *) apply H.
 Qed.
 
 (** **** Exercise: 2 stars, standard (and_assoc)  
@@ -268,10 +268,10 @@ Qed.
 Theorem and_assoc : forall P Q R : Prop,
   P /\ (Q /\ R) -> (P /\ Q) /\ R.
 Proof.
-  intros P Q R [HP [HQ HR]].
+  intros.
   split.
-  - split. apply HP. apply HQ.
-  - apply HR.
+  - split. apply H. apply H.
+  - apply H.
 Qed.
 (** [] *)
 
@@ -477,7 +477,7 @@ Proof.
 (* FILL IN HERE *)
 
 (* Do not modify the following line: *)
-Definition manual_grade_for_double_neg_inf : option (nat*string) := None.
+(* Definition manual_grade_for_double_neg_inf : option (nat*string) := None. *)
 (** [] *)
 
 (** **** Exercise: 2 stars, standard, recommended (contrapositive)  *)
@@ -531,7 +531,7 @@ Proof.
   intros. reflexivity.
 Qed.
 
-Definition manual_grade_for_informal_not_PNP : option (nat*string) := None.
+(* Definition manual_grade_for_informal_not_PNP : option (nat*string) := None. *)
 (** [] *)
 
 (** Similarly, since inequality involves a negation, it requires a
@@ -636,7 +636,7 @@ Proof.
   - intros.  apply H.
 Qed.
 
-Theorem iff_trans : forall P Q R : Prop,
+(* Theorem iff_trans : forall P Q R : Prop,
   (P <-> Q) -> (Q <-> R) -> (P <-> R).
 Proof.
   intros. split. destruct H.
@@ -644,7 +644,7 @@ Proof.
     + apply H.
     + apply H1 in H2. apply H2.
   - intros. symmetry in H0. apply H0 in H1. symmetry in H. apply H in H1. apply H1.
-Qed.
+Qed. *)
 (** [] *)
 
 (** **** Exercise3 stars, standard (or_distributes_over_and)  *)

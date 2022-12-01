@@ -7,14 +7,30 @@ Import ListNotations.
 Theorem or_distributes_over_and : forall P Q R : Prop,
   P \/ (Q /\ R) <-> (P \/ Q) /\ (P \/ R).
 Proof.
- Admitted.
+  intros.
+  split.
+  - intros. split.
+    * destruct H. left. apply H. destruct H. right. apply H.
+    * destruct H. left. apply H. right. apply H.
+  - intros. destruct H. destruct H, H0.
+    * left. apply H.
+    * left. apply H.
+    * left. apply H0.
+    * right. split.
+      + apply H.
+      + apply H0.
+Qed.
 
 (* Exercício 2*)
 
 Theorem dist_exists_and : forall (X:Type) (P Q : X -> Prop),
   (exists x, P x /\ Q x) -> (exists x, P x) /\ (exists x, Q x).
 Proof.
-  Admitted.
+  intros.
+  split.
+  - intros.
+    destruct H. 
+Qed.
 
 (* Exercício 3*)
 
