@@ -34,6 +34,9 @@ Theorem dist_exists_and : forall (X:Type) (P Q : X -> Prop),
 Proof.
   intros.
   intuition.
+  destruct H.
+  - destruct H.
+    *     
 Qed.
 
 (* Exercício 3*)
