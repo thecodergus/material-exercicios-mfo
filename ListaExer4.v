@@ -34,12 +34,10 @@ Theorem dist_exists_and : forall (X:Type) (P Q : X -> Prop),
 Proof.
   intros.
   intuition.
-  destruct H as [x G].
-  - destruct G as [G1 G2].
+  - destruct H as [x [G1 G2]].
     * exists x. apply G1.
-  - destruct H as [x' G']. 
-    * destruct G' as [G1' G2']. 
-      + exists x'. apply G2'. 
+  - destruct H as [x [G1 G2]]. 
+    * exists x. apply G2. 
 Qed.
 
 (* Exercício 3*)
@@ -50,19 +48,73 @@ Fixpoint In {A : Type} (x : A) (l : list A) : Prop :=
   | x' :: l' => x' = x \/ In x l'
   end.
 
+(* Lemma In_map_iff :
+  forall (A B : Type) (f : A -> B) (l : list A) (y : B),
+    In y (map f l) <->
+    exists x, f x = y /\ In x l.
+Proof.
+  intros.
+  intuition.
+
+Qed. *)
+Lemma In_map :
+  forall (A B : Type) (f : A -> B) (l : list A) (x : A),
+    In x l ->
+    In (f x) (map f l).
+Proof.
+  intros A B f l x.
+  induction l as [|x' l' IHl'].
+  - simpl. intros [].
+  - simpl. intros [H | H].
+      * rewrite H. left. reflexivity.
+      * right. apply IHl'. apply H.
+Qed.
+
 Lemma In_map_iff :
   forall (A B : Type) (f : A -> B) (l : list A) (y : B),
     In y (map f l) <->
     exists x, f x = y /\ In x l.
 Proof.
-  Admitted.
+  intros. split.
+  induction l as [|h t].
+  - simpl. intros [].
+  - simpl. intros [H | H].
+      * exists h. split. apply H. left. reflexivity.
+      * apply IHt in H. destruct H as [w [F I]].
+        + exists w. split. apply F. right. apply I.
+  - intros [w [F I]].
+      * rewrite <- F. apply In_map. apply I.
+Qed.
 
 (* Exercício 4*)
+
+(* Lemma In_app_iff : forall A l l' (a:A),
+  In a (l++l') <-> In a l \/ In a l'.
+Proof.
+  Admitted. *)
+
 
 Lemma In_app_iff : forall A l l' (a:A),
   In a (l++l') <-> In a l \/ In a l'.
 Proof.
-  Admitted.
+  intros. split.
+  - induction l as [|h t].
+    * simpl. intro. right. apply H.
+    * simpl. intros [H | H].
+      + left. left. apply H.
+      + apply IHt in H. destruct H.
+        { left. right. apply H. }
+        { right. apply H. }
+  - induction l as [|h t].
+    * intros [H | H].
+      + inversion H.
+      + simpl. apply H.
+    * intros [H | H].
+      + simpl. inversion H.
+        { left. apply H0. }
+        { right. apply IHt. left. apply H0. }
+      + simpl. right. apply IHt. right. apply H.
+Qed.
 
 (* Exercício 5*)
 
