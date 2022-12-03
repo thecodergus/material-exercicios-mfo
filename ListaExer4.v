@@ -21,15 +21,19 @@ Proof.
       + apply H0.
 Qed.
 
+(* Theorem or_distributes_over_and : forall P Q R : Prop,
+  P \/ (Q /\ R) <-> (P \/ Q) /\ (P \/ R).
+Proof.
+  intuition.
+Qed. *)
+
 (* Exercício 2*)
 
 Theorem dist_exists_and : forall (X:Type) (P Q : X -> Prop),
   (exists x, P x /\ Q x) -> (exists x, P x) /\ (exists x, Q x).
 Proof.
   intros.
-  split.
-  - intros.
-    destruct H. 
+  intuition.
 Qed.
 
 (* Exercício 3*)

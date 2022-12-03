@@ -608,6 +608,7 @@ Theorem iff_sym : forall P Q : Prop,
   (P <-> Q) -> (Q <-> P).
 Proof.
   (* WORKED IN CLASS *)
+  (* intros P Q [HAB HBA]. *)
   intros P Q [HAB HBA].
   split.
   - (* -> *) apply HBA.
