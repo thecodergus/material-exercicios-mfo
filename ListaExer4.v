@@ -124,12 +124,31 @@ Fixpoint All {T : Type} (P : T -> Prop) (l : list T) : Prop :=
   | (h :: t) => P h /\ All P t 
   end.
 
-Lemma All_In :
+(* Lemma All_In :
   forall T (P : T -> Prop) (l : list T),
     (forall x, In x l -> P x) <->
     All P l.
 Proof.
- Admitted.
+ Admitted. *)
+
+ Lemma All_In :
+  forall T (P : T -> Prop) (l : list T),
+    (forall x, In x l -> P x) <->
+    All P l.
+Proof.
+  intros. split.
+  - induction l as [|h t].
+    * reflexivity.
+    * intros. simpl. split.
+      + apply H. simpl. left. reflexivity.
+      + apply IHt. intros. apply H. simpl. right. apply H0.
+  - induction l as [|h t].
+    * intros. inversion H0.
+    * intros. simpl in H0. simpl in H.
+      + destruct H as [PH APT]. destruct H0 as [HX | IXT].
+        ++ rewrite <- HX. apply PH.
+        ++ apply IHt. apply APT. apply IXT.
+Qed.
 
 (* Exercício 6*)
 
