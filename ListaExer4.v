@@ -48,28 +48,6 @@ Fixpoint In {A : Type} (x : A) (l : list A) : Prop :=
   | x' :: l' => x' = x \/ In x l'
   end.
 
-(* Lemma In_map_iff :
-  forall (A B : Type) (f : A -> B) (l : list A) (y : B),
-    In y (map f l) <->
-    exists x, f x = y /\ In x l.
-Proof.
-  intros.
-  intuition.
-
-Qed. *)
-Lemma In_map :
-  forall (A B : Type) (f : A -> B) (l : list A) (x : A),
-    In x l ->
-    In (f x) (map f l).
-Proof.
-  intros A B f l x.
-  induction l as [|x' l' IHl'].
-  - simpl. intros [].
-  - simpl. intros [H | H].
-      * rewrite H. left. reflexivity.
-      * right. apply IHl'. apply H.
-Qed.
-
 Lemma In_map_iff :
   forall (A B : Type) (f : A -> B) (l : list A) (y : B),
     In y (map f l) <->
@@ -77,13 +55,21 @@ Lemma In_map_iff :
 Proof.
   intros. split.
   induction l as [|h t].
-  - simpl. intros [].
+  - simpl. contradiction.
   - simpl. intros [H | H].
       * exists h. split. apply H. left. reflexivity.
       * apply IHt in H. destruct H as [w [F I]].
         + exists w. split. apply F. right. apply I.
   - intros [w [F I]].
-      * rewrite <- F. apply In_map. apply I.
+      * assert (In_map : forall (A B : Type) (f : A -> B) (l : list A) (x : A), In x l -> In (f x) (map f l)). {
+          intros A' B' f' l' x'.
+          induction l' as [|x'' l'' IHl''].
+          - simpl. contradiction.
+          - simpl. intros [H | H].
+              * rewrite H. left. reflexivity.
+              * right. apply IHl''. apply H.
+      }
+        + rewrite <- F. apply In_map. apply I.
 Qed.
 
 (* Exercício 4*)
@@ -154,12 +140,13 @@ Qed.
 
 Theorem or_implies : forall (P Q : Prop), ~P \/ Q -> P -> Q.
 Proof.
-  Admitted.
-
+  intuition.
+Qed.
 (* Exercício 7*)
 Theorem implies_or_peirce : forall (P Q : Prop), (~P \/ Q) -> ((P -> Q) -> P) -> P.
 Proof.
-  Admitted.
+  intuition.
+Qed.
 
 
 
