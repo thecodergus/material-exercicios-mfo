@@ -51,19 +51,36 @@ Proof.
   generalize dependent s1.
   induction s2 as [|h t].
   - split. 
-    * intros H. simpl in H. inversion H. reflexivity.
-    * intros H. simpl. rewrite H. apply MEmpty.
+    * intros. 
+      simpl in H. 
+      inversion H. 
+      reflexivity.
+    * intros. 
+      simpl. 
+      rewrite H. 
+      apply MEmpty.
   - intros s1. split. 
-    * intros H. simpl in H. inversion H. 
-      inversion H3. simpl. 
-      rewrite (IHt s2) in H4. rewrite H4. reflexivity.
-    * intros H. simpl. rewrite H.
+    * intros. 
+      simpl in H. 
+      inversion H. 
+      inversion H3. 
+      simpl. 
+      rewrite (IHt s2) in H4. 
+      rewrite H4. 
+      reflexivity.
+    * intros. 
+      simpl. 
+      rewrite H.
       assert ( A : forall S (x:S) y, [x]++y = x::y). {
-          intros S x y. simpl. reflexivity.
+          intros. 
+          simpl. 
+          reflexivity.
       }
-      rewrite <- A. apply MApp.
+      rewrite <- A. 
+      apply MApp.
       + apply MChar.
-      + apply IHt. reflexivity.
+      + apply IHt. 
+      reflexivity.
 Qed.
 
 
@@ -81,40 +98,57 @@ end.
 Lemma re_not_empty_correct : forall T (re : @reg_exp T),
   (exists s, s =~ re) <-> re_not_empty re = true.
 Proof.
-  intros.  split.
+  intros.  
+  split.
   - intros [s Hmatch].
     induction Hmatch
     as [
         |x'
         |s1 re1 s2 re2 Hmatch1 IH1 Hmatch2 IH2
         |s1 re1 re2 Hmatch IH|re1 s2 re2 Hmatch IH
-        |re|s1 s2 re Hmatch1 IH1 Hmatch2 IH2].
+        |re|s1 s2 re Hmatch1 IH1 Hmatch2 IH2
+       ].
     * trivial.
     * trivial.
-    * simpl. rewrite IH1. rewrite IH2. trivial.
-    * simpl. rewrite IH. trivial.
-    * simpl. rewrite IH. 
+    * simpl. 
+      rewrite IH1. 
+      rewrite IH2. 
+      trivial.
+    * simpl. 
+      rewrite IH. 
+      trivial.
+    * simpl. 
+      rewrite IH. 
       destruct (re_not_empty re1);trivial.
     * trivial.
     * trivial.
   - intros H. 
     induction re.
     * inversion H.
-    * exists []. apply MEmpty.
-    * exists [t]. apply MChar.
+    * exists []. 
+      apply MEmpty.
+    * exists [t]. 
+      apply MChar.
     * simpl in H. 
       rewrite andb_true_iff in H.
       destruct H as [L R].
       destruct (IHre1 L) as [s1 H1].
       destruct (IHre2 R) as [s2 H2].
-      exists (s1++s2). apply MApp; assumption.
-    * simpl in H. rewrite orb_true_iff in H.
+      exists (s1++s2). 
+      apply MApp; assumption.
+    * simpl in H. 
+      rewrite orb_true_iff in H.
       destruct H as [H | H].
       + destruct (IHre1 H) as [s1 M].
-        exists s1. apply MUnionL. assumption.
+        exists s1. 
+        apply MUnionL. 
+        assumption.
       + destruct (IHre2 H) as [s2 M].
-        exists s2. apply MUnionR. assumption.
-    * exists []. apply MStar0.
+        exists s2. 
+        apply MUnionR. 
+        assumption.
+    * exists []. 
+      apply MStar0.
 Qed.
 
 
@@ -136,13 +170,27 @@ Proof.
     - inversion Heqre'.
     - inversion Heqre'.
     - inversion Heqre'.
-    - exists []. split.
+    - exists []. 
+      split.
       * reflexivity. 
-      * intros s' H. inversion H.
+      * intros s' H. 
+      inversion H.
     - destruct (IH2 Heqre') as [ss' [L R]].
-      exists (s1::ss'). split.
-      * simpl. rewrite <- L. reflexivity.
-      * intros s' H. destruct H.
-        { rewrite <- H. inversion Heqre'. rewrite H1 in Hmatch1. apply Hmatch1. }
-        { apply R. apply H. }
+      exists (s1::ss'). 
+      split.
+      * simpl. 
+      rewrite <- L. 
+      reflexivity.
+      * intros s' H. 
+      destruct H.
+        { 
+          rewrite <- H. 
+          inversion Heqre'. 
+          rewrite H1 in Hmatch1. 
+          apply Hmatch1. 
+        }
+        { 
+          apply R. 
+          apply H. 
+        }
 Qed.
