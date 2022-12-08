@@ -105,8 +105,10 @@ Proof.
     as [
         |x'
         |s1 re1 s2 re2 Hmatch1 IH1 Hmatch2 IH2
-        |s1 re1 re2 Hmatch IH|re1 s2 re2 Hmatch IH
-        |re|s1 s2 re Hmatch1 IH1 Hmatch2 IH2
+        |s1 re1 re2 Hmatch IH
+        |re1 s2 re2 Hmatch IH
+        |re
+        |s1 s2 re Hmatch1 IH1 Hmatch2 IH2
        ].
     * trivial.
     * trivial.
@@ -162,9 +164,14 @@ Proof.
     intros.
     remember (Star re) as re'.
     induction H
-      as [|x'|s1 re1 s2 re2 Hmatch1 IH1 Hmatch2 IH2
-          |s1 re1 re2 Hmatch IH|re1 s2 re2 Hmatch IH
-          |re''|s1 s2 re'' Hmatch1 IH1 Hmatch2 IH2].
+      as [
+          |x'
+          |s1 re1 s2 re2 Hmatch1 IH1 Hmatch2 IH2
+          |s1 re1 re2 Hmatch IH
+          |re1 s2 re2 Hmatch IH
+          |re''
+          |s1 s2 re'' Hmatch1 IH1 Hmatch2 IH2
+         ].
     - inversion Heqre'.
     - inversion Heqre'.
     - inversion Heqre'.
